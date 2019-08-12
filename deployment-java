@@ -1,0 +1,22 @@
+pipeline {
+    agent any
+	parameters {
+        string(defaultValue: "", description: '', name: 'ARTIFACTID')
+        string(defaultValue: "", description: '', name: 'VERSION')
+        string(defaultValue: "", description: '', name: 'GROUPID')
+    }
+	stages {
+		stage('Deploy to Server') {
+			steps {
+					sh '''
+					echo "${GROUPID}"
+					echo "${ARTIFACTID}"
+					echo "${VERSION}" 
+					kill $(ps aux | grep "${ARTIFACTID}"-"${VERSION}".jar | head -1 | awk '{print $2}') 
+					mvn dependency:get -DremoteRepositories=http://localhost:8081/repository/maven-snapshots/ -DgroupId=${GROUPID} -DartifactId=${ARTIFACTID} -Dversion=${VERSION} -Dtransitive=false  -Ddest=/app/
+					nohup java -Dserver.port=8007 -jar ${ARTIFACTID}-${VERSION}.jar &
+					'''
+			}
+		}
+	}
+}
