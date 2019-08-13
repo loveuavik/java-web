@@ -13,7 +13,8 @@ pipeline {
 					echo "${ARTIFACTID}"
 					echo "${VERSION}" 
 					pkill -f ${ARTIFACTID}-${VERSION}.jar
-					mvn dependency:get -DremoteRepositories=http://localhost:8081/repository/maven-snapshots/ -DgroupId=${GROUPID} -DartifactId=${ARTIFACTID} -Dversion=${VERSION} -Dtransitive=false  -Ddest=/app/
+					'''
+					sh label: '', returnStdout: true, script: '''mvn dependency:get -DremoteRepositories=http://localhost:8081/repository/maven-snapshots/ -DgroupId=${GROUPID} -DartifactId=${ARTIFACTID} -Dversion=${VERSION} -Dtransitive=false  -Ddest=/app/
 					nohup java -Dserver.port=8007 -jar ${ARTIFACTID}-${VERSION}.jar &
 					'''
 			}
