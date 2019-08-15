@@ -8,6 +8,7 @@ pipeline {
 	stages {
 		stage('Deploy to Server') {
 			steps {
+					sh ' pkill -f "${ARTIFACTID}"-"${VERSION}".jar '
 					sh ' rm -rf /app/"${ARTIFACTID}"-"${VERSION}".jar '
 					sh ' mvn dependency:get -DremoteRepositories=http://3.212.83.87:8081/repository/maven-snapshots/ -DgroupId="${GROUPID}" -DartifactId="${ARTIFACTID}" -Dversion="${VERSION}" -Dtransitive=false  -Ddest=/app/ '
 					sh ' java -version '
