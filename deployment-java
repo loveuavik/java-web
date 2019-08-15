@@ -8,15 +8,9 @@ pipeline {
 	stages {
 		stage('Deploy to Server') {
 			steps {
-					sh '''
-					echo "${GROUPID}"
-					echo "${ARTIFACTID}"
-					echo "${VERSION}" 
-					pkill -f "${ARTIFACTID}"-"${VERSION}".jar
-					'''
-					sh label: '', returnStdout: true, script: '''mvn dependency:get -DremoteRepositories=http://3.212.83.87:8081/repository/maven-snapshots/ -DgroupId="${GROUPID}" -DartifactId="${ARTIFACTID}" -Dversion="${VERSION}" -Dtransitive=false  -Ddest=/app/
-					nohup java -Dserver.port=8007 -jar /app/${ARTIFACTID}-${VERSION}.jar &
-					'''
+					sh 'pkill -f "${ARTIFACTID}"-"${VERSION}".jar'
+					sh label: '', returnStdout: true, script: 'mvn dependency:get -DremoteRepositories=http://3.212.83.87:8081/repository/maven-snapshots/ -DgroupId="${GROUPID}" -DartifactId="${ARTIFACTID}" -Dversion="${VERSION}" -Dtransitive=false  -Ddest=/app/'
+					sh 'java -Dserver.port=8007 -jar /app/"${ARTIFACTID}"-"${VERSION}".jar &'
 			}
 		}
 	}
