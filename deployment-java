@@ -15,7 +15,7 @@ pipeline {
 					sh ' echo "#!/bin/sh" > /app/java.sh '
 					sh ' echo "nohup java -Dserver.port=8007 -jar /app/"${ARTIFACTID}"-"${VERSION}".jar &" >> /app/java.sh '
 					sh ' chmod 755 /app/java.sh '
-					sh ' /app/java.sh '
+					sh " /app/java.sh "
 			}
 		}
 	}
