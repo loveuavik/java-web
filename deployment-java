@@ -1,5 +1,5 @@
 pipeline {
-    agent { label 'int-jenksin-node' }
+    agent { label 'int-jenkins-node' }
 	parameters {
         string(defaultValue: "", description: '', name: 'ARTIFACTID')
         string(defaultValue: "", description: '', name: 'VERSION')
