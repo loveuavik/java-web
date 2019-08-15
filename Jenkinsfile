@@ -1,5 +1,5 @@
 pipeline {
-    agent master
+    agent none
 	  environment {
 		pom = readMavenPom file: 'initial/pom.xml'
 		ARTIFACTID = "${pom.artifactId}"
