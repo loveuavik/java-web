@@ -12,7 +12,7 @@ pipeline {
 					sh ' rm -rf /app/"${ARTIFACTID}"-"${VERSION}".jar '
 					sh ' mvn dependency:get -DremoteRepositories=http://3.212.83.87:8081/repository/maven-snapshots/ -DgroupId="${GROUPID}" -DartifactId="${ARTIFACTID}" -Dversion="${VERSION}" -Dtransitive=false  -Ddest=/app/ '
 					sh ' java -version '
-					sh ' echo "#!/bin/sh" > /app/java.sh
+					sh ' echo "#!/bin/sh" > /app/java.sh '
 					sh ' echo "nohup java -Dserver.port=8007 -jar /app/"${ARTIFACTID}"-"${VERSION}".jar &" >> /app/java.sh '
 					sh ' chmod 755 /app/java.sh '
 					sh ' sh /app/java.sh '
