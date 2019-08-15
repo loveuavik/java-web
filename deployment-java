@@ -11,7 +11,8 @@ pipeline {
 					sh ' rm -rf /app/"${ARTIFACTID}"-"${VERSION}".jar '
 					sh ' mvn dependency:get -DremoteRepositories=http://3.212.83.87:8081/repository/maven-snapshots/ -DgroupId="${GROUPID}" -DartifactId="${ARTIFACTID}" -Dversion="${VERSION}" -Dtransitive=false  -Ddest=/app/ '
 					sh ' java -version '
-					sh ' java -Dserver.port=8007 -jar /app/"${ARTIFACTID}"-"${VERSION}".jar '
+					sh ' echo "java -Dserver.port=8007 -jar /app/"${ARTIFACTID}"-"${VERSION}".jar" > /app/java.sh '
+					sh ' /app/java.sh '
 			}
 		}
 	}
